@@ -4,7 +4,7 @@ import {
 } from "./shipSkin";
 
 import {
-	updateShipRotation
+	updateShipMovement
 } from "./shipMovement";
 
 export default class Ship {
@@ -18,7 +18,12 @@ export default class Ship {
 
 		this.angle = 0;
 
+		this.velocityX = 0;
+		this.velocityY = 0;
+
 		this.rotationSpeed = 3;
+		this.thrustPower = 0.12;
+		this.friction = 0.995;
 
 		this.graphics =
 			createShipGraphics(scene);
@@ -27,20 +32,24 @@ export default class Ship {
 
 	}
 
-	draw() {
+	draw(thrusting = false) {
 
-		drawShipSkin(this);
+		drawShipSkin(
+			this,
+			thrusting
+		);
 
 	}
 
 	update(input) {
 
-		updateShipRotation(
-			this,
-			input
-		);
+		const thrusting =
+			updateShipMovement(
+				this,
+				input
+			);
 
-		this.draw();
+		this.draw(thrusting);
 
 	}
 
