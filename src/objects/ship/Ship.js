@@ -7,6 +7,10 @@ import {
 	updateShipMovement
 } from "./shipMovement";
 
+import {
+	wrapShip
+} from "./shipCollision";
+
 export default class Ship {
 
 	constructor(scene, x, y) {
@@ -48,6 +52,8 @@ export default class Ship {
 				this,
 				input
 			);
+
+		wrapShip(this);
 
 		this.draw(thrusting);
 
