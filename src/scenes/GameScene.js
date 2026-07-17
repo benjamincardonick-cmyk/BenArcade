@@ -5,6 +5,7 @@ import Ship from "../objects/ship/Ship";
 import InputManager from "../managers/InputManager";
 import BulletManager from "../managers/BulletManager";
 import AsteroidManager from "../managers/AsteroidManager";
+import CollisionManager from "../managers/CollisionManager";
 
 import {
 	GAME_WIDTH,
@@ -29,6 +30,9 @@ export default class GameScene extends Phaser.Scene {
 
 		this.asteroidManager =
 			new AsteroidManager(this);
+
+		this.collisionManager =
+			new CollisionManager();
 
 		this.ship =
 			new Ship(
@@ -58,6 +62,12 @@ export default class GameScene extends Phaser.Scene {
 		this.bulletManager.update();
 
 		this.asteroidManager.update();
+
+		this.collisionManager
+			.checkBulletAsteroidCollisions(
+				this.bulletManager,
+				this.asteroidManager
+			);
 
 	}
 

@@ -14,8 +14,8 @@ import {
 } from "./asteroidCollision";
 
 import {
-	ASTEROID_RADIUS,
-	ASTEROID_SPEED,
+	ASTEROID_TYPES,
+	ASTEROID_SIZES,
 	ASTEROID_ROTATION_SPEED
 } from "./asteroidConfig";
 
@@ -27,6 +27,19 @@ export default class Asteroid {
 
 		this.x = config.x;
 		this.y = config.y;
+
+		this.size =
+			config.size ??
+			ASTEROID_TYPES.LARGE;
+
+		const sizeSettings =
+			ASTEROID_SIZES[this.size];
+
+		this.radius =
+			sizeSettings.radius;
+
+		this.scoreValue =
+			sizeSettings.score;
 
 		this.angle =
 			config.angle ??
@@ -43,7 +56,7 @@ export default class Asteroid {
 
 		const speed =
 			config.speed ??
-			ASTEROID_SPEED;
+			sizeSettings.speed;
 
 		this.velocityX =
 			Math.cos(movementAngle) *
@@ -97,7 +110,7 @@ export default class Asteroid {
 				);
 
 			const radius =
-				ASTEROID_RADIUS *
+				this.radius *
 				radiusVariation;
 
 			points.push({
