@@ -1,7 +1,10 @@
 import Phaser from "phaser";
 
 import Ship from "../objects/ship/Ship";
+
 import InputManager from "../managers/InputManager";
+import BulletManager from "../managers/BulletManager";
+import AsteroidManager from "../managers/AsteroidManager";
 
 import {
 	GAME_WIDTH,
@@ -21,12 +24,28 @@ export default class GameScene extends Phaser.Scene {
 		this.inputManager =
 			new InputManager(this);
 
+		this.bulletManager =
+			new BulletManager(this);
+
+		this.asteroidManager =
+			new AsteroidManager(this);
+
 		this.ship =
 			new Ship(
 				this,
 				GAME_WIDTH / 2,
 				GAME_HEIGHT / 2
 			);
+
+		this.asteroidManager.createAsteroid({
+
+			x: GAME_WIDTH / 2 + 250,
+
+			y: GAME_HEIGHT / 2,
+
+			angle: 0
+
+		});
 
 	}
 
@@ -35,6 +54,10 @@ export default class GameScene extends Phaser.Scene {
 		this.ship.update(
 			this.inputManager
 		);
+
+		this.bulletManager.update();
+
+		this.asteroidManager.update();
 
 	}
 

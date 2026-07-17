@@ -11,6 +11,14 @@ import {
 	wrapShip
 } from "./shipCollision";
 
+import {
+	SHIP_ROTATION_SPEED,
+	SHIP_THRUST_POWER,
+	SHIP_FRICTION
+} from "./shipConfig";
+
+import Weapon from "../weapon/Weapon";
+
 export default class Ship {
 
 	constructor(scene, x, y) {
@@ -25,12 +33,23 @@ export default class Ship {
 		this.velocityX = 0;
 		this.velocityY = 0;
 
-		this.rotationSpeed = 3;
-		this.thrustPower = 0.12;
-		this.friction = 0.995;
+		this.rotationSpeed =
+			SHIP_ROTATION_SPEED;
+
+		this.thrustPower =
+			SHIP_THRUST_POWER;
+
+		this.friction =
+			SHIP_FRICTION;
 
 		this.graphics =
 			createShipGraphics(scene);
+
+		this.primaryWeapon =
+			new Weapon(
+				this,
+				scene.bulletManager
+			);
 
 		this.draw();
 
@@ -54,6 +73,8 @@ export default class Ship {
 			);
 
 		wrapShip(this);
+
+		this.primaryWeapon.update(input);
 
 		this.draw(thrusting);
 
